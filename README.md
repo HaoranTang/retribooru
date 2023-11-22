@@ -1,7 +1,4 @@
-### Contrastive Spatial Inductive Bias
+### Retrieving Conditions from Reference Images for Diffusion Models
+Official codebase for our paper. View our project page [Here](https://haorantang.github.io/cl_spatial_inductive_bias/).
 
-This is the official research code for our ICCV 23' paper: [Contrastive Learning Relies More on Spatial Inductive Bias Than Supervised Learning: An Empirical Study](https://openaccess.thecvf.com/content/ICCV2023/html/Zhong_Contrastive_Learning_Relies_More_on_Spatial_Inductive_Bias_Than_Supervised_ICCV_2023_paper.html). We also have a [paper website here](https://haorantang.github.io/cl_spatial_inductive_bias/). 
-
-This codebase is based on PyTorch Lightning SSL library [solo-learn](https://github.com/vturrisi/solo-learn).
-
-Links and instructions coming soon!
+More links, files, and instructions coming soon!
