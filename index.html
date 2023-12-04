@@ -245,7 +245,10 @@
 			<tr>
 				<td width=800px>
 					<center>
-						<img class="round" style="width:800px" src="./resources/teaser_v0.png"/>
+						<img class="round" style="width:800px" src="./resources/teaser_v1.png"/>
+						Top: an illustration of a character clustered into two clothing identities. 
+						Middle: top 15 characters and top 30 cloth tags by count, where "Hakurei Reimu" has the maximum count of 3274, and "skirt" is tagged most frequently. 
+						Bottom: Four training samples of concept composition, where for each sample we take four different body parts as reference images, and learn to compose them for the augmented generation.
 					</center>
 				</td>
 			</tr>
@@ -265,12 +268,11 @@
 		<center><h1>Abstract</h1></center>
 		<tr>
 			<td>
-				Recent diffusion-based subject driven generation methods have enabled image generations with good fidelity for specific objects or human portraits. 
-				However, to achieve better versatility for applications, we argue that we need better datasets, evaluation and be more careful at retrieving only relevant information from given sample images.
-				To this end, we propose an anime figures dataset RetriBooru-V1, with enhanced identity and clothing labels. 
-				We state new tasks enabled by this dataset. We create a new diversity metric to measure success in completing these tasks, capturing both identity preservation and prompt-consistency . 
-				We establish an RAG-inspired baseline method, designed to retrieve precise condition information from reference images. 
-				Then, we make comparisons with current methods and conduct ablation studies on the possible structural choices.
+				Recent diffusion-based subject driven generative methods have enabled image generations with good fidelity for specific objects or human portraits.  
+				However, to achieve better versatility for applications, we argue that not only improved datasets and evaluations are desired, but also more careful methods to retrieve only relevant information from conditional images are anticipated.
+				To this end, we propose an anime figures dataset RetriBooru-V1, with enhanced identity and clothing labels. We state new tasks enabled by this dataset, and introduce a new diversity metric to measure success in completing these tasks, 
+				quantifying the flexibility of image generations. We establish an RAG-inspired baseline method, designed to retrieve precise conditional information from reference images. 
+				Then, we compare with current methods on existing task to demonstrate the capability of the proposed method. Finally, we provide baseline experiment results on new tasks, and conduct ablation studies on the possible structural choices.
 			</td>
 		</tr>
 	</table>
