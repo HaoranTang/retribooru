@@ -135,11 +135,31 @@
 	  clear: both;
 	  display: table;
 	}
+	table {
+	  width: 100%;
+	  border-collapse: collapse;
+	  margin: 10px 0;
+	  font-family: Arial, sans-serif;
+	}
+	caption {
+	  caption-side: top;
+	  font-size: 16px;
+	  font-weight: bold;
+	  margin: 5px;
+	}
+	th, td {
+	  border: 1px solid black;
+	  padding: 8px;
+	  text-align: center;
+	}
+	th {
+	  background-color: #f2f2f2;
+	}
 </style>
 
 <html>
 <head>
-	<title>RetriBooru Dataset</title>
+	<title>Retriving Conditions from Reference</title>
 	<meta property="og:image" content="Path to my teaser.png"/> <!-- Facebook automatically scrapes this. Go to https://developers.facebook.com/tools/debug/ if you update and want to force Facebook to rescrape. -->
 	<meta property="og:title" content="Creative and Descriptive Paper Title." />
 	<meta property="og:description" content="Paper description." />
@@ -245,11 +265,10 @@
 			<tr>
 				<td width=800px>
 					<center>
-						<img class="round" style="width:700px" src="./resources/teaser_v1.png"/>
+						<img class="round" style="width:700px" src="./resources/teaser_v3.png"/>
 						<br>
-						Top: an illustration of a character clustered into two clothing identities. 
-						Middle: top 15 characters and top 30 cloth tags by count, where "Hakurei Reimu" has the maximum count of 3274, and "skirt" is tagged most frequently. 
-						Bottom: Four training samples of concept composition, where for each sample we take four different body parts as reference images, and learn to compose them for the augmented generation.
+						An illustration of the proposed task of concept composition. Face identity
+						information are retrieved and composed with clothing information.
 					</center>
 				</td>
 			</tr>
@@ -269,32 +288,123 @@
 		<center><h1>Abstract</h1></center>
 		<tr>
 			<td>
-				Recent diffusion-based subject driven generative methods have enabled image generations with good fidelity for specific objects or human portraits.  
-				However, to achieve better versatility for applications, we argue that not only improved datasets and evaluations are desired, but also more careful methods to retrieve only relevant information from conditional images are anticipated.
-				To this end, we propose an anime figures dataset RetriBooru-V1, with enhanced identity and clothing labels. We state new tasks enabled by this dataset, and introduce a new diversity metric to measure success in completing these tasks, 
-				quantifying the flexibility of image generations. We establish an RAG-inspired baseline method, designed to retrieve precise conditional information from reference images. 
-				Then, we compare with current methods on existing task to demonstrate the capability of the proposed method. Finally, we provide baseline experiment results on new tasks, and conduct ablation studies on the possible structural choices.
+				Newly developed diffusion-based techniques have showcased
+				phenomenal abilities in producing a wide range of high-quality images,
+				sparking considerable interest in various applications. A prevalent scenario 
+				is to generate new images based on a subject from reference images.
+				This subject could be face identity for styled avatars, body and clothing 
+				for virtual try-on and so on. Satisfying this requirement is evolving
+				into a field called <i>Subject-Driven Generation</i>. In this paper, we consider
+				Subject-Driven Generation as a unified retrieval problem with diffusion
+				models. We introduce a novel diffusion model architecture, named <b>RetriNet</b>, 
+				designed to address and solve these problems by retrieving subject
+				attributes from reference images precisely, and filter out irrelevant information. 
+				RetriNet demonstrates impressive performance when compared
+				to existing state-of-the-art approaches in face generation. We further
+				propose a research and iteration friendly dataset, <b>RetriBooru</b>, to study a
+				more difficult problem, concept composition. Finally, to better evaluate
+				alignment between similarity and diversity or measure diversity that have
+				been previously unaccounted for, we introduce a novel class of metrics
+				named Similarity Weighted Diversity (SWD).
 			</td>
 		</tr>
 	</table>
 	<br>
 
 	<hr>
-<!-- 	<center><h1>Presentation</h1></center>
-	<p align="center">
-		<iframe width="660" height="395" src="https://photos.onedrive.com/share/D27461EA7AC8629C!386848?cid=D27461EA7AC8629C&resId=D27461EA7AC8629C!386848&authkey=!APSjIFTk6g95MiI&ithint=video&e=deib1d" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen align="center"></iframe>
-	</p>
 
-	<table align=center width=800px>
-		<br>
+	<table align=center width=850px>
+		<center><h1>RetriNet Architecture</h1></center>
 		<tr>
-			<center>
-				<span style="font-size:28px"><a href=''>[Slides]</a>
-				</span>
-			</center>
+			<td width=800px>
+				<center>
+					<img class="round" style="width:700px" src="./resources/arch_figure.png"/>
+					<br>
+					RetriNet architecture. At each timestep, we pass reference images and reference
+					concepts into the retrieval encoder to encode precisely only the relevant information.
+					We pass noisy target image and prompt made directly with Danbooru tags to a copy of
+					standard stable diffusion UNet. Note that we process reference images, texts, and time
+					with corresponding frozen encoders, and we have frozen encoder and middle blocks of
+					SD. We connect layer outputs of retrieval encoder to SD decoder via our conjunction
+					network consisted of cross-attentions and zero-convolutions.
+				</center>
+			</td>
 		</tr>
 	</table>
-	<hr> -->
+	<br>
+
+	<hr>
+
+	<table align=center width=850px>
+		<center><h1>RetriBooru Dataset</h1></center>
+		<tr>
+			<td width=800px>
+				<center>
+					<table>
+					    <caption>Comparisons with datasets used in other literature.</caption>
+					    <tr>
+					        <th>Dataset</th>
+					        <th>Size</th>
+					        <th>Category</th>
+					        <th>Multi-images per identity</th>
+					        <th>Concept composition</th>
+					        <th>Data source</th>
+					    </tr>
+					    <tr>
+					        <td>DreamBooth</td>
+					        <td>&le; 180</td>
+					        <td>Objects</td>
+					        <td>✔</td>
+					        <td></td>
+					        <td>Web</td>
+					    </tr>
+					    <tr>
+					        <td>BLIP-Diffusion</td>
+					        <td>129M</td>
+					        <td>Objects</td>
+					        <td></td>
+					        <td></td>
+					        <td>Multiple Sources</td>
+					    </tr>
+					    <tr>
+					        <td>FastComposer</td>
+					        <td>70K</td>
+					        <td>Human Faces</td>
+					        <td></td>
+					        <td>✔</td>
+					        <td>FFHQ-wild</td>
+					    </tr>
+					    <tr>
+					        <td>CustomConcept101</td>
+					        <td>642</td>
+					        <td>Objects and Faces</td>
+					        <td>✔</td>
+					        <td>✔</td>
+					        <td>Web</td>
+					    </tr>
+					    <tr>
+					        <td><strong>Ours</strong></td>
+					        <td>116K</td>
+					        <td>Anime Figures</td>
+					        <td>✔</td>
+					        <td>✔</td>
+					        <td>Danbooru</td>
+					    </tr>
+					</table>
+					<br>
+					In order to train a referenced generation model
+					for a given concept, we need to have a concept labeled dataset. The reason is
+					that training on the same image both as the reference and the target risk leaking
+					extra information such as style. Existing datasets are lacking in size, types of
+					identities, single-tasked and may be harder to iterate on than anime (faces, for
+					example).
+				</center>
+			</td>
+		</tr>
+	</table>
+	<br>
+
+	<hr>
 
 <!-- 	<center><h1>Destroying Spatial Inductive Bias via Data Corruptions</h1></center>
 	<table align=center width=800px>
