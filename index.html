@@ -135,22 +135,25 @@
 	  clear: both;
 	  display: table;
 	}
-	table {
+	#dataset-comparison {
 	  width: 100%;
 	  border-collapse: collapse;
 	  margin: 10px 0;
 	  font-family: Arial, sans-serif;
 	}
-	caption {
+	#dataset-comparison caption {
 	  caption-side: top;
 	  font-size: 16px;
 	  font-weight: bold;
 	  margin: 5px;
 	}
-	th {
+	#dataset-comparison th, #dataset-comparison td {
 	  border: 1px solid black;
 	  padding: 8px;
 	  text-align: center;
+	}
+	#dataset-comparison th {
+	  background-color: #f2f2f2;
 	}
 </style>
 
@@ -337,7 +340,7 @@
 		<tr>
 			<td width=800px>
 				<center>
-					<table>
+					<table id="dataset-comparison">
 					    <caption>Comparisons with datasets used in other literature.</caption>
 					    <tr>
 					        <th>Dataset</th>
