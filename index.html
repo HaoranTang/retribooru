@@ -261,30 +261,27 @@
 	</center>
 
 	<center>
-		<table align=center width=850px>
+		<table align=center width=900px>
 			<tr>
-				<td width=800px>
+				<td width=900px>
 					<center>
-						<img class="round" style="width:700px" src="./resources/teaser_v3.png"/>
-						<br>
+						<img class="round" style="width:900px" src="./resources/teaser_v3.png"/>
+					</center>
+				</td>
+				<br>
+				<td width=900px>
+					<center>
 						An illustration of the proposed task of concept composition. Face identity
 						information are retrieved and composed with clothing information.
 					</center>
 				</td>
 			</tr>
 		</table>
-<!-- 		<table align=center width=850px>
-			<tr>
-				<td>
-					This was a template originally made for <a href="http://richzhang.github.io/colorization/">Colorful Image Colorization</a>. The code can be found in this <a href="https://github.com/richzhang/webpage-template">repository</a>.
-				</td>
-			</tr>
-		</table> -->
 	</center>
-
+	
 	<hr>
 
-	<table align=center width=850px>
+	<table align=center width=900px>
 		<center><h1>Abstract</h1></center>
 		<tr>
 			<td>
@@ -309,16 +306,15 @@
 			</td>
 		</tr>
 	</table>
-	<br>
 
 	<hr>
 
-	<table align=center width=850px>
+	<table align=center width=900px>
 		<center><h1>RetriNet Architecture</h1></center>
 		<tr>
-			<td width=800px>
+			<td width=900px>
 				<center>
-					<img class="round" style="width:700px" src="./resources/arch_figure.png"/>
+					<img class="round" style="width:900px" src="./resources/arch_figure.png"/>
 					<br>
 					RetriNet architecture. At each timestep, we pass reference images and reference
 					concepts into the retrieval encoder to encode precisely only the relevant information.
@@ -331,15 +327,21 @@
 			</td>
 		</tr>
 	</table>
-	<br>
 
 	<hr>
 
-	<table align=center width=850px>
+	<table align=center width=900px>
 		<center><h1>RetriBooru Dataset</h1></center>
 		<tr>
-			<td width=800px>
+			<td width=900px>
 				<center>
+					In order to train a referenced generation model
+					for a given concept, we need to have a concept labeled dataset. The reason is
+					that training on the same image both as the reference and the target risk leaking
+					extra information such as style. Existing datasets are lacking in size, types of
+					identities, single-tasked and may be harder to iterate on than anime (faces, for
+					example).
+					<br>
 					<table id="dataset-comparison">
 					    <caption>Comparisons with datasets used in other literature.</caption>
 					    <tr>
@@ -391,18 +393,10 @@
 					        <td>Danbooru</td>
 					    </tr>
 					</table>
-					<br>
-					In order to train a referenced generation model
-					for a given concept, we need to have a concept labeled dataset. The reason is
-					that training on the same image both as the reference and the target risk leaking
-					extra information such as style. Existing datasets are lacking in size, types of
-					identities, single-tasked and may be harder to iterate on than anime (faces, for
-					example).
 				</center>
 			</td>
 		</tr>
 	</table>
-	<br>
 
 	<hr>
 
