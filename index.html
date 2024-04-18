@@ -367,7 +367,7 @@
 					        <td>Objects</td>
 					        <td></td>
 					        <td></td>
-					        <td>Multiple Sources</td>
+					        <td>Datasets Mixture</td>
 					    </tr>
 					    <tr>
 					        <td>FastComposer</td>
@@ -400,6 +400,21 @@
 	</table>
 
 	<hr>
+
+	<table align=center width=900px>
+		<center><h1>Similarity Weighted Diversity</h1></center>
+		<tr>
+			<td width=900px>
+				<center>
+					We provide a class of metrics to combine similarity and diversity metrics and argue that this 
+					combination is crucial for referenced generation. In short, we encourage generation to have maximal diversity of facial and body details 
+					while preserving identity. See our paper for detailed formulations. For application, we evaluate diversity by asking VQA model (InstructBLIP-Vicuna 7B) 
+					about the image details, and evaluate similarity by CLIP scores and DeepFace-L2 if human faces are evaluated. Our metric will also benefit from continued 
+					improvements in the precision of similarity and diversity measurements.
+				</center>
+			</td>
+		</tr>
+	</table>
 
 <!-- 	<center><h1>Destroying Spatial Inductive Bias via Data Corruptions</h1></center>
 	<table align=center width=800px>
