@@ -268,8 +268,10 @@
 						<img class="round" style="width:1000px" src="./resources/teaser_v3.png"/>
 						<br>
 						<br>
-						An illustration of the proposed task of concept composition. Face identity
-						information are retrieved and composed with clothing information.
+						Training the proposed concept composition task on our RetriBooru dataset. 
+						Different concepts to retrieve are specified in texts and passed to the retrieval encoder, 
+						which learns only from characteristic information to compose the output, guiding generation 
+						with text prompts in the U-Net.
 					</center>
 				</td>
 			</tr>
@@ -282,46 +284,21 @@
 		<center><h1>Abstract</h1></center>
 		<tr>
 			<td>
-				Newly developed diffusion-based techniques have showcased
-				phenomenal abilities in producing a wide range of high-quality images,
-				sparking considerable interest in various applications. A prevalent scenario 
-				is to generate new images based on a subject from reference images.
-				This subject could be face identity for styled avatars, body and clothing 
-				for virtual try-on and so on. Satisfying this requirement is evolving
-				into a field called <i>Subject-Driven Generation</i>. In this paper, we consider
-				Subject-Driven Generation as a unified retrieval problem with diffusion
-				models. We introduce a novel diffusion model architecture, named <b>RetriNet</b>, 
-				designed to address and solve these problems by retrieving subject
-				attributes from reference images precisely, and filter out irrelevant information. 
-				RetriNet demonstrates impressive performance when compared
-				to existing state-of-the-art approaches in face generation. We further
-				propose a research and iteration friendly dataset, <b>RetriBooru</b>, to study a
-				more difficult problem, concept composition. Finally, to better evaluate
-				alignment between similarity and diversity or measure diversity that have
-				been previously unaccounted for, we introduce a novel class of metrics
-				named Similarity Weighted Diversity (SWD).
-			</td>
-		</tr>
-	</table>
-
-	<hr>
-
-	<table align=center width=900px>
-		<center><h1>RetriNet Architecture</h1></center>
-		<tr>
-			<td width=900px>
-				<center>
-					<img class="round" style="width:900px" src="./resources/arch_figure.png"/>
-					<br>
-					<br>
-					RetriNet architecture. At each timestep, we pass reference images and reference
-					concepts into the retrieval encoder to encode precisely only the relevant information.
-					We pass noisy target image and prompt made directly with Danbooru tags to a copy of
-					standard stable diffusion UNet. Note that we process reference images, texts, and time
-					with corresponding frozen encoders, and we have frozen encoder and middle blocks of
-					SD. We connect layer outputs of retrieval encoder to SD decoder via our conjunction
-					network consisted of cross-attentions and zero-convolutions.
-				</center>
+				Diffusion-based methods have demonstrated remarkable capabilities in generating a diverse array of high-quality images, 
+				sparking interests for styled avatars, virtual try-on, and more. Previous methods use the same reference image as the 
+				target. An overlooked aspect is the leakage of the target's spatial information, style, etc. from the reference, 
+				harming the generated diversity and causing shortcuts. However, this approach continues as widely available datasets 
+				usually consist of single images not grouped by identities, and it is expensive to recollect large-scale same-identity 
+				data. Moreover, existing metrics adopt decoupled evaluation on text alignment and identity preservation, which fail at 
+				distinguishing between balanced outputs and those that over-fit to one aspect. 
+				In this paper, we propose a multi-level, same-identity dataset RetriBooru, which groups anime characters by both face 
+				and cloth identities. RetriBooru enables adopting reference images of the same character and outfits as the target, 
+				while keeping flexible gestures and actions. We benchmark previous methods on our dataset, and demonstrate the 
+				effectiveness of training with a reference image different from target (but same identity). We introduce a new concept 
+				composition task, where the conditioning encoder learns to retrieve different concepts from several reference images, 
+				and modify a baseline network RetriNet for the new task. Finally, we introduce a novel class of metrics named Similarity 
+				Weighted Diversity (SWD), to measure the overlooked diversity and better evaluate the alignment between similarity and 
+				diversity.
 			</td>
 		</tr>
 	</table>
@@ -333,11 +310,17 @@
 		<tr>
 			<td width=900px>
 				<center>
+					<img class="round" style="width:900px" src="./resources/retribooru_annot.png"/>
+					<br>
+					Details of RetriBooru dataset. Left: annotations of an individual sample. Right: distributions 
+					of lengths of the ``similar'' lists, top-15 characters with most appearances, and top-30 cloth tags.
+					<br>
+					<br>
 					In order to train a referenced generation model
-					for a given concept, we need to have a concept labeled dataset. The reason is
-					that training on the same image both as the reference and the target risk leaking
-					extra information such as style. Existing datasets are lacking in size, types of
-					identities, single-tasked and may be harder to iterate on than anime (faces, for
+					for a given concept, we need to have a concepts-labeled dataset. The reason is
+					that training on the same image both as the reference and the target risks leaking
+					extra information such as style and geometric bias for "shortcut" convergence. Existing datasets are 
+					lacking in size, types of identities, single-tasked and may be harder to iterate on than anime (faces, for
 					example) as shown in the below table. We use InstructBLIP-Vicuna 7B with simple yet strict
 					heuristics to aid our annotations of clothing identities, based on Danbooru 2019 Figures datase. 
 					Please refer to our paper for detailed dataset processing and construction, 
@@ -400,6 +383,27 @@
 	</table>
 
 	<hr>
+	
+	<table align=center width=900px>
+		<center><h1>RetriNet Architecture</h1></center>
+		<tr>
+			<td width=900px>
+				<center>
+					<img class="round" style="width:900px" src="./resources/arch_figure.png"/>
+					<br>
+					<br>
+					An illustration of concept composition task on RetriBooru using RetriNet. We pass reference concepts into the 
+					retrieval encoder to encode precisely only the relevant information. We pass noisy target image and prompt made 
+					with Danbooru tags to a copy of denoising U-Net. Note that we process reference images, texts, and time with 
+					corresponding frozen encoders, and we have frozen encoder and middle blocks of SD. We designate the embeddings 
+					derived from target images and prompts as Query (Q), while the embeddings from reference images and text serve as 
+					Key and Values (KV). Following the cross attention layers are zero-convolution layers.
+				</center>
+			</td>
+		</tr>
+	</table>
+
+<!-- 	<hr>
 
 	<table align=center width=900px>
 		<center><h1>Similarity Weighted Diversity</h1></center>
@@ -433,94 +437,7 @@
 				</center>
 			</td>
 		</tr>
-	</table>
-
-<!-- 	<center><h1>Destroying Spatial Inductive Bias via Data Corruptions</h1></center>
-	<table align=center width=800px>
-		<tr>
-			<td align=center width=800px>
-				<center>
-					<td><img class="round" style="width:800px" src="./resources/vis_cropped.png"/></td>
-				</center>
-			</td>
-		</tr>
-	</table>
-	<table align=center width=850px>
-		<center>
-			<tr>
-				<td>
-					We corrupt the spatial inductie bias from data by destroying its structural information in two ways:
-					<ul>
-					  <li>Global shuffling: Divide image into N&times;N patches of patch size P, shuffle all patches</li>
-					  <li>Local shuffling: Divide image into N&times;N patches of patch size P, shuffle pixels within each patch independently</li>
-					</ul>
-					
-				</td>
-			</tr>
-		</center>
-	</table>
-	<table align=center width=900px>
-		<tr>
-			<td align=center width=900px>
-				<center>
-					<td><img class="round" style="width:900px" src="./resources/tabs.jpg"/></td>
-				</center>
-			</td>
-		</tr>
-	</table>
-	<table align=center width=900px>
-		<tr>
-			<td><a href=""><img class="round" style="width:459px" src="./resources/exp.png"/></a></td>
-			<td>
-					Pretraining and Downstream tasks with corruptions lead to consistent observations, which hold for different datasets, architectures, etc.
-					<ul>
-					  <li>CL relies more on spatial inductive bias than SL; CL relies more on global spatial inductive bias than local</li>
-					  <li>Well pretrained CLs with spatial bias are more robust to patch shuffling than SL on Downstream tasks</li>
-					</ul>
-					
-			</td>
-		</tr>
-	</table>
-
-	<table align=center width=800px>
-		<center><h1>Empirical Analysis from Feature Space</h1></center>
-		<tr>
-			<td align=center width=800px>
-				<center>
-					<td><img class="round" style="width:800px" src="./resources/vis_attn_mod-1.png"/></td>
-				</center>
-			</td>
-		</tr>
-	</table>
-	<center>Grad-CAM maps from learned representations</center>
-	<br>
-	<table align=center width=800px>
-		<tr>
-			<td align=center width=800px>
-				<center>
-					<td><img class="round" style="width:800px" src="./resources/unif-1.png"/></td>
-				</center>
-			</td>
-		</tr>
-	</table>
-	<center>Class-wise feature uniformity throughout training (black represents overal feature space)</center>
-	<br>
-	<div class="row">
-		<div class="column">
-	    		<img src="./resources/unif_ori-1.png" alt="ori" style="width:100%">
-	  	</div>
-	  	<div class="column">
-	    		<img src="./resources/unif_defocusblur-1.png" alt="def" style="width:100%">
-	  	</div>
-	  	<div class="column">
-	    		<img src="./resources/unif_glo_4-1.png" alt="glo" style="width:100%">
-	  	</div>
-		<div class="column">
-	    		<img src="./resources/unif_loc_8-1.png" alt="loc" style="width:100%">
-	  	</div>
-	</div>
-	<center>t-SNE visualizations</center>
-	<br> -->
+	</table> -->
 
 	<hr>
 	<table align=center width=900px>
